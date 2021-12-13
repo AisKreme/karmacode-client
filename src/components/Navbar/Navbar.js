@@ -5,6 +5,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import { useContext } from "react";
+import { UserContext } from "../../context/app.context";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,15 +51,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = (props) => {
+  const { user } = useContext(UserContext);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: "navColor.main" }}>
         <Toolbar>
           <Container
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
             component="div"
             sx={{
-              display: "flex",
-              flexGrow: 1,
               padding: "0 20px 0 5px",
               alignItems: "center",
             }}
@@ -73,6 +79,7 @@ const Navbar = (props) => {
             >
               Karmacode.
             </Link>
+
             <Container
               component="div"
               style={{
@@ -104,6 +111,7 @@ const Navbar = (props) => {
                 Map
               </Button>
             </Container>
+
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -113,47 +121,60 @@ const Navbar = (props) => {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
+            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
+              {user ? (
+                <>
+                  <Button
+                    startIcon={<AddCircleIcon />}
+                    sx={{ borderRadius: "20px" }}
+                    style={{ marginRight: "20px" }}
+                    color="primary"
+                    variant="contained"
+                    href="/create-organisation"
+                  >
+                    Create an Organisation
+                  </Button>
+                  <Button
+                    onClick={props.onLogout}
+                    sx={{ borderRadius: "20px" }}
+                    style={{ marginRight: "20px" }}
+                    color="primary"
+                    variant="contained"
+                    href="/"
+                  >
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    sx={{ borderRadius: "20px" }}
+                    style={{ marginRight: "20px" }}
+                    color="primary"
+                    variant="contained"
+                    href="/login"
+                  >
+                    Login
+                  </Button>
+
+                  <Button
+                    startIcon={<AddCircleIcon />}
+                    sx={{ borderRadius: "20px" }}
+                    style={{
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      padding: "6px 20px",
+                    }}
+                    color="secondary"
+                    variant="contained"
+                    href="/signup"
+                  >
+                    SignUp
+                  </Button>
+                </>
+              )}
+            </Container>
           </Container>
-
-          {props.user ? (
-            <Button
-              onClick={props.onLogout}
-              sx={{ borderRadius: "20px" }}
-              style={{ marginRight: "20px" }}
-              color="primary"
-              variant="contained"
-              href="/"
-            >
-              Logout
-            </Button>
-          ) : (
-            <>
-              <Button
-                sx={{ borderRadius: "20px" }}
-                style={{ marginRight: "20px" }}
-                color="primary"
-                variant="contained"
-                href="/login"
-              >
-                Login
-              </Button>
-
-              <Button
-                startIcon={<AddCircleIcon />}
-                sx={{ borderRadius: "20px" }}
-                style={{
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                  padding: "6px 20px",
-                }}
-                color="secondary"
-                variant="contained"
-                href="/signup"
-              >
-                SignUp
-              </Button>
-            </>
-          )}
         </Toolbar>
       </AppBar>
     </Box>

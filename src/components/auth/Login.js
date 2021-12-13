@@ -7,6 +7,8 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 
 const Login = (props) => {
+  const { onLogin } = props;
+  const { myError } = props;
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -20,8 +22,10 @@ const Login = (props) => {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={onLogin}>
           <TextField
+            error={Boolean(myError?.username)}
+            helperText={myError?.username}
             margin="normal"
             color="secondary"
             required
@@ -33,6 +37,8 @@ const Login = (props) => {
             autoFocus
           />
           <TextField
+            error={Boolean(myError?.password)}
+            helperText={myError?.password}
             margin="normal"
             color="secondary"
             required

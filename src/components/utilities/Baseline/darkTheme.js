@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
 
 // A custom theme for this app
 const darkTheme = createTheme({
@@ -28,6 +27,10 @@ const darkTheme = createTheme({
     fontFamily: ["Noto Sans", "sans-serif"].join(","),
     button: {
       textTransform: "none",
+      fontWeight: 600,
+    },
+    h5: {
+      fontWeight: 600,
     },
   },
 });

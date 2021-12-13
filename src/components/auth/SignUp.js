@@ -8,7 +8,7 @@ import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { API_URL } from "../../serverConfig";
+import { API_URL } from "../../config";
 
 const SignUp = (props) => {
   const [myError, setError] = useState(null);
