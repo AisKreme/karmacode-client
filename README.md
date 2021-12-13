@@ -1,13 +1,6 @@
-# Commenting for documents
-
-Created: December 8, 2021 1:50 PM
-Last Edited Time: December 9, 2021 11:14 AM
-Status: In Review 👀
-Type: Project Kickoff 🚀
-
 # Overview
 
-Karmacode is a web app to show charity organisations on a map. As an organisation you can create and show off the projects, that you are doing. 
+Karmacode is a web app to show charity organisations on a map. As an organisation you can create and show off the projects, that you are doing.
 
 ## User Stories
 
@@ -37,19 +30,19 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 
 ## Scope
 
-| Path | Component | Permissions | Action |
-| --- | --- | --- | --- |
-| / | Navbar/Landing/Footer | public | Landing Page |
-| /login | Navbar/Login/Footer | public | Login Page |
-| /signup | Navbar/SignUp/Footer | public | Sign Up Page |
-| /logout |  | user | Delete Session |
-| /map | Navbar/Map/Footer | public | Map Page |
-| /organisation/:id | Navbar/Organisation/ ProjectCard/ Footer | public | Organisation Page |
-| /create-organisation | Navbar/CreateOrganisation/ Footer | user | Create Organisation Form |
-| /manage-organisation | Navbar/ManageOrganisation/ Footer | user | Link to Edit Organisation/ Create Project |
-| /edit-organisation | Navbar/EditOrganisation/ Footer | user | Edit Organisation Form |
-| /create-project | Navbar/CreateProject/Footer | user | Create Project Form |
-| /project/:id | Navbar/Project/Footer | public | Project Page |
+| Path                 | Component                                | Permissions | Action                                    |
+| -------------------- | ---------------------------------------- | ----------- | ----------------------------------------- |
+| /                    | Navbar/Landing/Footer                    | public      | Landing Page                              |
+| /login               | Navbar/Login/Footer                      | public      | Login Page                                |
+| /signup              | Navbar/SignUp/Footer                     | public      | Sign Up Page                              |
+| /logout              |                                          | user        | Delete Session                            |
+| /map                 | Navbar/Map/Footer                        | public      | Map Page                                  |
+| /organisation/:id    | Navbar/Organisation/ ProjectCard/ Footer | public      | Organisation Page                         |
+| /create-organisation | Navbar/CreateOrganisation/ Footer        | user        | Create Organisation Form                  |
+| /manage-organisation | Navbar/ManageOrganisation/ Footer        | user        | Link to Edit Organisation/ Create Project |
+| /edit-organisation   | Navbar/EditOrganisation/ Footer          | user        | Edit Organisation Form                    |
+| /create-project      | Navbar/CreateProject/Footer              | user        | Create Project Form                       |
+| /project/:id         | Navbar/Project/Footer                    | public      | Project Page                              |
 
 ## Components
 
@@ -70,15 +63,15 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 
 ## Routes
 
-| METHOD | URL |
-| --- | --- |
-| POST | /signup |
-| POST | /login |
-| POST | /logout |
-| GET | /organisation/:id |
-| POST | /create-organisation |
-| POST | /edit-organisation |
-| GET | /project/:id |
+| METHOD | URL                  |
+| ------ | -------------------- |
+| POST   | /signup              |
+| POST   | /login               |
+| POST   | /logout              |
+| GET    | /organisation/:id    |
+| POST   | /create-organisation |
+| POST   | /edit-organisation   |
+| GET    | /project/:id         |
 
 ## Schema
 
@@ -133,7 +126,7 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
       type: String,
 			required: true,
     },
-		latitude: { 
+		latitude: {
 			type: Number,
 			required: true,
 		}
@@ -165,7 +158,8 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 - ~~Project~~
 
 ```jsx
-{}
+{
+}
 ```
 
 # Links
