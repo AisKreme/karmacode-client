@@ -63,15 +63,17 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 
 ## Routes
 
-| METHOD | URL                  |
-| ------ | -------------------- |
-| POST   | /signup              |
-| POST   | /login               |
-| POST   | /logout              |
-| GET    | /organisation/:id    |
-| POST   | /create-organisation |
-| POST   | /edit-organisation   |
-| GET    | /project/:id         |
+| METHOD | URL                                     |
+| ------ | --------------------------------------- |
+| POST   | /signup :heavy_check_mark:              |
+| POST   | /login :heavy_check_mark:               |
+| POST   | /logout :heavy_check_mark:              |
+| POST   | /user/delete :heavy_check_mark:         |
+| GET    | /organisation/:id :heavy_check_mark:    |
+| POST   | /create-organisation :heavy_check_mark: |
+| POST   | /edit-organisation :heavy_check_mark:   |
+| POST   | /organisation/delete :heavy_check_mark: |
+| GET    | /project/:id                            |
 
 ## Schema
 
@@ -82,13 +84,19 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
     username: {
       type: String,
       unique: true,
-			required: true,
     },
+		email: {
+			type: String,
+			unique: true,
+		},
     password: {
       type: String,
 			required: true,
     },
-    picture: {
+		confirmPassword: {
+			type: String,
+		}
+    image: {
       type: String,
     },
 		organisation: {
@@ -105,10 +113,6 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 
 ```jsx
 {
-    id: {
-      type: Number,
-      unique: true,
-    },
     name: {
       type: String,
 			unique: true,
@@ -118,6 +122,9 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
       type: String,
 			required: true,
     },
+		houseNr: {
+			type: String,
+		}
     zip: {
       type: String,
 			required: true,
@@ -126,6 +133,10 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
       type: String,
 			required: true,
     },
+		country: {
+			type: String,
+			required: true,
+		}
 		latitude: {
 			type: Number,
 			required: true,
@@ -142,13 +153,13 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 		},
     contact: {
 			name: {
-					type: Schema.Types.ObjectId,
-					ref:  "User"
+				type: Schema.Types.ObjectId,
+				ref:  "User"
 			},
-      links: {
-	        type: Array,
-      },
-    },
+			links: {
+				type: Array,
+			},
+		},
 },
 {
     timestamps: true,
@@ -170,4 +181,6 @@ Karmacode is a web app to show charity organisations on a map. As an organisatio
 
 [Click Prototype](https://www.figma.com/proto/W9lv4t5UFyGqB8xkgi8Z0s/Karmacode?node-id=14%3A33&scaling=contain&page-id=0%3A1&starting-point-node-id=14%3A33)
 
-[API](https://github.com/betterplace/betterplace_apidocs)
+[API Organisations](https://github.com/betterplace/betterplace_apidocs)
+
+[API Geo Data](https://nominatim.org/release-docs/develop/api/Overview/)
