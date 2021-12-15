@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { OrganisationContext } from "../../context/organisation.context";
 import { FetchingUserContext } from "../../context/fetchingUser.context";
 import { UserContext } from "../../context/app.context";
@@ -11,6 +11,11 @@ const OrgaCreate = () => {
   const { organisation, setOrganisation } = useContext(OrganisationContext);
   const { user, setUser } = useContext(UserContext);
   const { fetchingUser, setFetching } = useContext(FetchingUserContext);
+  const [myError, setError] = useState({
+    name: "",
+    address: "",
+    something: "",
+  });
   const navigate = useNavigate();
 
   const handleCreateOrga = async (event) => {
@@ -37,7 +42,17 @@ const OrgaCreate = () => {
       setUser(data);
       navigate(`/organisation/${data.organisation}`);
     } catch (err) {
-      console.log(err.response.data);
+      if (err.response.data === "Please enter a name for your organisation.") {
+        setError({ name: err.response.data });
+      } else if (
+        err.response.data === "Please make sure to enter a valid address."
+      ) {
+        setError({ address: err.response.data });
+      } else if (
+        err.response.data === "Something went wrong! PLEASE MOVE BACK!"
+      ) {
+        setError({ something: err.response.data });
+      }
     }
   };
   if (fetchingUser) {
@@ -64,8 +79,8 @@ const OrgaCreate = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.name)}
+              helperText={myError?.name}
               margin="normal"
               required
               fullWidth
@@ -77,8 +92,8 @@ const OrgaCreate = () => {
               autoFocus
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "30%" }}
@@ -89,8 +104,8 @@ const OrgaCreate = () => {
               name="houseNr"
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "70%" }}
@@ -101,8 +116,8 @@ const OrgaCreate = () => {
               name="street"
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "60%" }}
@@ -113,8 +128,8 @@ const OrgaCreate = () => {
               name="city"
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "40%" }}
@@ -125,8 +140,8 @@ const OrgaCreate = () => {
               name="zip"
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               fullWidth
@@ -137,8 +152,8 @@ const OrgaCreate = () => {
               name="country"
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError.something?.something)}
+              helperText={myError.something?.something}
               margin="normal"
               fullWidth
               autoComplete="off"

@@ -32,8 +32,6 @@ function App() {
         setUser(data);
       } catch (err) {
         setFetching(false);
-
-        console.log(err);
       }
     })();
   }, [setUser]);

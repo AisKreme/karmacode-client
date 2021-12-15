@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { OrganisationContext } from "../../context/organisation.context";
 import { FetchingUserContext } from "../../context/fetchingUser.context";
 import { UserContext } from "../../context/app.context";
@@ -19,6 +19,11 @@ const OrgaEdit = () => {
   const { organisation, setOrganisation } = useContext(OrganisationContext);
   const { user, setUser } = useContext(UserContext);
   const { fetchingUser, setFetching } = useContext(FetchingUserContext);
+  const [myError, setError] = useState({
+    name: "",
+    address: "",
+    something: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +38,7 @@ const OrgaEdit = () => {
         console.log(err);
       }
     })();
-  }, []);
+  }, [setOrganisation]);
 
   const handleEditOrga = async (event) => {
     event.preventDefault();
@@ -58,7 +63,17 @@ const OrgaEdit = () => {
       setOrganisation(data);
       navigate(`/organisation/${data._id}`);
     } catch (err) {
-      console.log(err.response.data);
+      if (err.response.data === "Please enter a name for your organisation.") {
+        setError({ name: err.response.data });
+      } else if (
+        err.response.data === "Please make sure to enter a valid address."
+      ) {
+        setError({ address: err.response.data });
+      } else if (
+        err.response.data === "Something went wrong! PLEASE MOVE BACK!"
+      ) {
+        setError({ something: err.response.data });
+      }
     }
   };
 
@@ -77,7 +92,7 @@ const OrgaEdit = () => {
     }
   };
 
-  if (fetchingUser) {
+  if (fetchingUser || !organisation) {
     return <p>LOADING ...</p>;
   }
   return (
@@ -101,8 +116,8 @@ const OrgaEdit = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.name)}
+              helperText={myError?.name}
               margin="normal"
               required
               fullWidth
@@ -115,8 +130,8 @@ const OrgaEdit = () => {
               autoFocus
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "30%" }}
@@ -128,8 +143,8 @@ const OrgaEdit = () => {
               defaultValue={`${organisation.houseNr}`}
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "70%" }}
@@ -141,8 +156,8 @@ const OrgaEdit = () => {
               defaultValue={`${organisation.street}`}
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "60%" }}
@@ -154,8 +169,8 @@ const OrgaEdit = () => {
               defaultValue={`${organisation.city}`}
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               style={{ width: "40%" }}
@@ -167,8 +182,8 @@ const OrgaEdit = () => {
               defaultValue={`${organisation.zip}`}
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError?.address)}
+              helperText={myError?.address}
               margin="normal"
               required
               fullWidth
@@ -180,8 +195,8 @@ const OrgaEdit = () => {
               defaultValue={`${organisation.country}`}
             />
             <TextField
-              // error
-              // helperText
+              error={Boolean(myError.something?.something)}
+              helperText={myError.something?.something}
               margin="normal"
               fullWidth
               autoComplete="off"
