@@ -1,5 +1,13 @@
-import { AppBar, Box, Toolbar, Button, Container } from "@mui/material";
-import Link from "@mui/material/Link";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Button,
+  Container,
+  Typography,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import MuiLink from "@mui/material/Link";
 import "./Navbar";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { styled, alpha } from "@mui/material/styles";
@@ -61,29 +69,34 @@ const Navbar = (props) => {
             style={{
               display: "flex",
               justifyContent: "flex-start",
+              padding: "0",
             }}
             component="div"
             sx={{
-              padding: "0 20px 0 5px",
               alignItems: "center",
             }}
           >
             <Link
-              variant="h5"
-              underline="none"
-              href="/"
-              sx={{ color: "normalWhite.main" }}
+              to="/"
               style={{
-                margin: "20px",
+                textDecoration: "none",
               }}
             >
-              Karmacode.
+              <MuiLink
+                variant="h5"
+                underline="none"
+                sx={{ color: "normalWhite.main" }}
+                style={{}}
+              >
+                Karmacode.
+              </MuiLink>
             </Link>
 
             <Container
               component="div"
               style={{
                 display: "flex",
+                justifyContent: "space-evenly",
                 margin: "20px",
                 borderRight: "3px solid #373f4f",
                 borderLeft: "3px solid #373f4f",
@@ -92,24 +105,36 @@ const Navbar = (props) => {
                 marginRight: "50px",
               }}
             >
-              <Button
-                sx={{ borderRadius: "20px" }}
-                style={{ margin: "0 auto" }}
-                color="primary"
-                variant="contained"
-                href="/"
+              <Link
+                to="/"
+                style={{
+                  textDecoration: "none",
+                }}
               >
-                Start
-              </Button>
-              <Button
-                sx={{ borderRadius: "20px" }}
-                style={{ margin: "0 auto" }}
-                color="primary"
-                variant="contained"
-                href="/map"
+                <Button
+                  sx={{ borderRadius: "20px" }}
+                  style={{ margin: "0 auto" }}
+                  color="primary"
+                  variant="contained"
+                >
+                  Start
+                </Button>
+              </Link>
+              <Link
+                to="/map"
+                style={{
+                  textDecoration: "none",
+                }}
               >
-                Map
-              </Button>
+                <Button
+                  sx={{ borderRadius: "20px" }}
+                  style={{ margin: "0 auto" }}
+                  color="primary"
+                  variant="contained"
+                >
+                  Map
+                </Button>
+              </Link>
             </Container>
 
             <Search>
@@ -124,53 +149,88 @@ const Navbar = (props) => {
             <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               {user ? (
                 <>
-                  <Button
-                    startIcon={<AddCircleIcon />}
-                    sx={{ borderRadius: "20px" }}
-                    style={{ marginRight: "20px" }}
-                    color="primary"
-                    variant="contained"
-                    href="/create-organisation"
-                  >
-                    Create an Organisation
-                  </Button>
+                  {user.organisation ? (
+                    <Link
+                      to="/manage-organisation"
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      <Button
+                        sx={{ borderRadius: "20px" }}
+                        style={{ marginRight: "20px" }}
+                        color="secondary"
+                        variant="contained"
+                      >
+                        Manage your Organisation
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link
+                      to="create-organisation"
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      <Button
+                        startIcon={<AddCircleIcon />}
+                        sx={{ borderRadius: "20px" }}
+                        style={{ marginRight: "20px" }}
+                        color="primary"
+                        variant="contained"
+                      >
+                        Create an Organisation
+                      </Button>
+                    </Link>
+                  )}
+
                   <Button
                     onClick={props.onLogout}
                     sx={{ borderRadius: "20px" }}
-                    style={{ marginRight: "20px" }}
+                    style={{ marginLeft: "20px" }}
                     color="primary"
                     variant="contained"
-                    href="/"
                   >
                     Logout
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button
-                    sx={{ borderRadius: "20px" }}
-                    style={{ marginRight: "20px" }}
-                    color="primary"
-                    variant="contained"
-                    href="/login"
-                  >
-                    Login
-                  </Button>
-
-                  <Button
-                    startIcon={<AddCircleIcon />}
-                    sx={{ borderRadius: "20px" }}
+                  <Link
+                    to="login"
                     style={{
-                      marginLeft: "10px",
-                      marginRight: "10px",
-                      padding: "6px 20px",
+                      textDecoration: "none",
                     }}
-                    color="secondary"
-                    variant="contained"
-                    href="/signup"
                   >
-                    SignUp
-                  </Button>
+                    <Button
+                      sx={{ borderRadius: "20px" }}
+                      style={{ marginRight: "20px" }}
+                      color="primary"
+                      variant="contained"
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button
+                      startIcon={<AddCircleIcon />}
+                      sx={{ borderRadius: "20px" }}
+                      style={{
+                        marginLeft: "10px",
+                        marginRight: "10px",
+                        padding: "6px 20px",
+                      }}
+                      color="secondary"
+                      variant="contained"
+                    >
+                      SignUp
+                    </Button>
+                  </Link>
                 </>
               )}
             </Container>

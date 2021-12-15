@@ -9,20 +9,34 @@ import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
 import Map from "./components/Map/Map";
 import { UserContext } from "./context/app.context";
+import { FetchingUserContext } from "./context/fetchingUser.context";
+import { OrganisationContext } from "./context/organisation.context";
+import OrgaCreate from "./components/Organisation/OrgaCreate";
+import OrgaEdit from "./components/Organisation/OrgaEdit";
+import OrgaProfil from "./components/Organisation/OrgaProfil";
 
 function App() {
   const { user, setUser } = useContext(UserContext);
   const [myError, setError] = useState(null);
+  const { fetchingUser, setFetching } = useContext(FetchingUserContext);
+  const { organisation, setOrganisation } = useContext(OrganisationContext);
 
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
-      let userResponse = await axios.get(`${API_URL}/user`, {
-        withCredentials: true,
-      });
-      setUser(userResponse.data);
+      try {
+        let { data } = await axios.get(`${API_URL}/user`, {
+          withCredentials: true,
+        });
+        setFetching(false);
+        setUser(data);
+      } catch (err) {
+        setFetching(false);
+
+        console.log(err);
+      }
     })();
-  }, []);
+  }, [setUser]);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -31,21 +45,34 @@ function App() {
         userInput: event.target.userInput.value,
         password: event.target.password.value,
       };
-      let res = await axios.post(`${API_URL}/login`, newUser, {
+      let { data } = await axios.post(`${API_URL}/login`, newUser, {
         withCredentials: true,
       });
-      setUser(res.data);
+      setUser(data);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
     }
   };
 
-  const handleLogout = async () => {
-    await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
-    setUser(null);
+  const handleLogout = async (event) => {
+    event.preventDefault();
+    try {
+      let { data } = await axios.post(
+        `${API_URL}/logout`,
+        {},
+        { withCredentials: true }
+      );
+      setUser(data);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  if (fetchingUser) {
+    return <p>LOADING ...</p>;
+  }
   return (
     <div>
       <Navbar onLogout={handleLogout} />
@@ -57,6 +84,9 @@ function App() {
           element={<Login myError={myError} onLogin={handleSignIn} />}
         />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/create-organisation" element={<OrgaCreate />} />
+        <Route path="/manage-organisation" element={<OrgaEdit />} />
+        <Route path="/organisation/:id" element={<OrgaProfil />} />
       </Routes>
     </div>
   );

@@ -42,7 +42,7 @@ const SignUp = (props) => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" align="center">
           Sign Up
         </Typography>
         <Box component="form" onSubmit={handleSignUp} noValidate sx={{ mt: 1 }}>
