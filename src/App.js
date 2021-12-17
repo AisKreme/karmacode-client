@@ -11,25 +11,35 @@ import Map from "./components/Map/Map";
 import { UserContext } from "./context/app.context";
 import { FetchingUserContext } from "./context/fetchingUser.context";
 import { OrganisationContext } from "./context/organisation.context";
+import { MyOrgaContext } from "./context/myOrga.context";
 import OrgaCreate from "./components/Organisation/OrgaCreate";
+import LandingPage from "./components/landingPage/LandingPage";
 import OrgaEdit from "./components/Organisation/OrgaEdit";
 import OrgaProfil from "./components/Organisation/OrgaProfil";
+import OrgaManage from "./components/Organisation/OrgaManage";
+import ProjectProfil from "./components/Project/ProjectProfil";
+import ProjectCreate from "./components/Project/ProjectCreate";
 
 function App() {
   const { user, setUser } = useContext(UserContext);
   const [myError, setError] = useState(null);
   const { fetchingUser, setFetching } = useContext(FetchingUserContext);
   const { organisation, setOrganisation } = useContext(OrganisationContext);
+  const { myOrga, setMyOrga } = useContext(MyOrgaContext);
 
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
       try {
-        let { data } = await axios.get(`${API_URL}/user`, {
+        let userRes = await axios.get(`${API_URL}/user`, {
           withCredentials: true,
         });
+        let orgaRes = await axios.get(
+          `${API_URL}/organisation/${user.Res.organisation}`
+        );
         setFetching(false);
-        setUser(data);
+        setUser(userRes.data);
+        setMyOrga(orgaRes.data);
       } catch (err) {
         setFetching(false);
       }
@@ -75,7 +85,7 @@ function App() {
     <div>
       <Navbar onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Map />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/map" element={<Map />} />
         <Route
           path="/login"
@@ -83,8 +93,11 @@ function App() {
         />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/create-organisation" element={<OrgaCreate />} />
-        <Route path="/manage-organisation" element={<OrgaEdit />} />
+        <Route path="/edit-organisation" element={<OrgaEdit />} />
+        <Route path="/manage-organisation" element={<OrgaManage />} />
         <Route path="/organisation/:id" element={<OrgaProfil />} />
+        <Route path="/create-project" element={<ProjectCreate />} />
+        <Route path="/project/:id" element={<ProjectProfil />} />
       </Routes>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { OrganisationContext } from "../../context/organisation.context";
 import { FetchingUserContext } from "../../context/fetchingUser.context";
+import { MyOrgaContext } from "../../context/myOrga.context";
 import { UserContext } from "../../context/app.context";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ import {
 
 const OrgaEdit = () => {
   const { organisation, setOrganisation } = useContext(OrganisationContext);
+  const { myOrga, setMyOrga } = useContext(MyOrgaContext);
   const { user, setUser } = useContext(UserContext);
   const { fetchingUser, setFetching } = useContext(FetchingUserContext);
   const [myError, setError] = useState({
@@ -33,7 +35,7 @@ const OrgaEdit = () => {
           `${API_URL}/organisation/${user.organisation}`
         );
         setFetching(false);
-        setOrganisation(data);
+        setMyOrga(data);
       } catch (err) {
         console.log(err);
       }
@@ -60,7 +62,7 @@ const OrgaEdit = () => {
           withCredentials: true,
         }
       );
-      setOrganisation(data);
+      setMyOrga(data);
       navigate(`/organisation/${data._id}`);
     } catch (err) {
       if (err.response.data === "Please enter a name for your organisation.") {
@@ -92,9 +94,10 @@ const OrgaEdit = () => {
     }
   };
 
-  if (fetchingUser || !organisation) {
+  if (fetchingUser || !myOrga || !user) {
     return <p>LOADING ...</p>;
   }
+
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -126,7 +129,7 @@ const OrgaEdit = () => {
               autoComplete="off"
               color="secondary"
               name="name"
-              defaultValue={`${organisation.name}`}
+              defaultValue={`${myOrga.name}`}
               autoFocus
             />
             <TextField
@@ -140,7 +143,7 @@ const OrgaEdit = () => {
               autoComplete="off"
               color="secondary"
               name="houseNr"
-              defaultValue={`${organisation.houseNr}`}
+              defaultValue={`${myOrga.houseNr}`}
             />
             <TextField
               error={Boolean(myError?.address)}
@@ -153,7 +156,7 @@ const OrgaEdit = () => {
               autoComplete="off"
               color="secondary"
               name="street"
-              defaultValue={`${organisation.street}`}
+              defaultValue={`${myOrga.street}`}
             />
             <TextField
               error={Boolean(myError?.address)}
@@ -166,7 +169,7 @@ const OrgaEdit = () => {
               autoComplete="off"
               color="secondary"
               name="city"
-              defaultValue={`${organisation.city}`}
+              defaultValue={`${myOrga.city}`}
             />
             <TextField
               error={Boolean(myError?.address)}
@@ -179,7 +182,7 @@ const OrgaEdit = () => {
               autoComplete="off"
               color="secondary"
               name="zip"
-              defaultValue={`${organisation.zip}`}
+              defaultValue={`${myOrga.zip}`}
             />
             <TextField
               error={Boolean(myError?.address)}
@@ -192,7 +195,7 @@ const OrgaEdit = () => {
               autoComplete="off"
               color="secondary"
               name="country"
-              defaultValue={`${organisation.country}`}
+              defaultValue={`${myOrga.country}`}
             />
             <TextField
               error={Boolean(myError.something?.something)}
@@ -205,7 +208,7 @@ const OrgaEdit = () => {
               name="description"
               label="What is your organisation about?"
               multiline
-              defaultValue={`${organisation.description}`}
+              defaultValue={`${myOrga.description}`}
             />
             <ButtonGroup
               style={{

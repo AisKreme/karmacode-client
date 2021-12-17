@@ -2,16 +2,15 @@ import React, { useState, useContext } from "react";
 import { OrganisationContext } from "../../context/organisation.context";
 import { FetchingUserContext } from "../../context/fetchingUser.context";
 import { UserContext } from "../../context/app.context";
-import { MyOrgaContext } from "../../context/myOrga.context";
+import { ProjectContext } from "../../context/project.context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config";
 import { Button, Container, Box, Typography, TextField } from "@mui/material";
 
-const OrgaCreate = () => {
+const ProjectCreate = () => {
+  const { project, setProject } = useContext(ProjectContext);
   const { organisation, setOrganisation } = useContext(OrganisationContext);
-
-  const { myOrga, setMyOrga } = useContext(MyOrgaContext);
   const { user, setUser } = useContext(UserContext);
   const { fetchingUser, setFetching } = useContext(FetchingUserContext);
   const [myError, setError] = useState({
@@ -21,10 +20,10 @@ const OrgaCreate = () => {
   });
   const navigate = useNavigate();
 
-  const handleCreateOrga = async (event) => {
+  const handleCreateProject = async (event) => {
     event.preventDefault();
     try {
-      let newOrga = {
+      let newProject = {
         name: event.target.name.value,
         houseNr: event.target.houseNr.value,
         street: event.target.street.value,
@@ -34,29 +33,21 @@ const OrgaCreate = () => {
         description: event.target.description.value,
       };
 
-      let { data } = await axios.post(
-        `${API_URL}/create-organisation`,
-        newOrga,
-        {
-          withCredentials: true,
-        }
-      );
-
+      let { data } = await axios.post(`${API_URL}/create-project`, newProject, {
+        withCredentials: true,
+      });
       setFetching(false);
-      setUser(data);
-      setMyOrga(data.organisation);
-      navigate(`/organisation/${data.organisation._id}`);
+      setOrganisation(data);
+      navigate(`/organisation/${data._id}`);
     } catch (err) {
-      if (err.response.data === "Please enter a name for your organisation.") {
-        setError({ name: err.response.data });
+      if (err.response === "Please enter a name for your project.") {
+        setError({ name: err.response });
       } else if (
-        err.response.data === "Please make sure to enter a valid address."
+        err.response === "Please make sure to enter a valid address."
       ) {
-        setError({ address: err.response.data });
-      } else if (
-        err.response.data === "Something went wrong! PLEASE MOVE BACK!"
-      ) {
-        setError({ something: err.response.data });
+        setError({ address: err.response });
+      } else if (err.response === "Something went wrong! PLEASE MOVE BACK!") {
+        setError({ something: err.response });
       }
     }
   };
@@ -75,11 +66,11 @@ const OrgaCreate = () => {
           }}
         >
           <Typography component="h1" variant="h5" align="center">
-            Create an Organisation
+            Create a new Project
           </Typography>
           <Box
             component="form"
-            onSubmit={handleCreateOrga}
+            onSubmit={handleCreateProject}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -90,7 +81,7 @@ const OrgaCreate = () => {
               required
               fullWidth
               id="name"
-              label="Name of your organisation"
+              label="Name of your project"
               autoComplete="off"
               color="secondary"
               name="name"
@@ -165,7 +156,7 @@ const OrgaCreate = () => {
               color="secondary"
               id="description"
               name="description"
-              label="What is your organisation about?"
+              label="What is your project about?"
               multiline
             />
             <Button
@@ -183,4 +174,4 @@ const OrgaCreate = () => {
   );
 };
 
-export default OrgaCreate;
+export default ProjectCreate;

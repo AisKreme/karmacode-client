@@ -15,6 +15,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useContext } from "react";
 import { UserContext } from "../../context/app.context";
+import { LandingContext } from "../../context/landing.context";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,7 +61,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = (props) => {
   const { user } = useContext(UserContext);
+  const { landing, setLanding } = useContext(LandingContext);
 
+  const toggleLandingON = () => {
+    setLanding(true);
+  };
+  const toggleLandingOFF = () => {
+    setLanding(false);
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: "navColor.main" }}>
@@ -110,6 +118,7 @@ const Navbar = (props) => {
                 style={{
                   textDecoration: "none",
                 }}
+                onClick={toggleLandingON}
               >
                 <Button
                   sx={{ borderRadius: "20px" }}
@@ -121,7 +130,8 @@ const Navbar = (props) => {
                 </Button>
               </Link>
               <Link
-                to="/map"
+                onClick={toggleLandingOFF}
+                to="/"
                 style={{
                   textDecoration: "none",
                 }}

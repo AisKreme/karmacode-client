@@ -6,12 +6,14 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { API_URL } from "../../config";
+import { UserContext } from "../../context/app.context";
 
 const SignUp = (props) => {
   const [myError, setError] = useState(null);
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignUp = async (event) => {
@@ -23,9 +25,10 @@ const SignUp = (props) => {
       confirmPassword: event.target.confirmPassword.value,
     };
     try {
-      await axios.post(`${API_URL}/signup`, newUser, {
+      let { data } = await axios.post(`${API_URL}/signup`, newUser, {
         withCredentials: true,
       });
+      setUser(data);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
